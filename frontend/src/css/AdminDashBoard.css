@@ -1,0 +1,70 @@
+/* Container */
+.admindashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Top Navbar */
+.admindashboard-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgb(95, 143, 248);
+  color: #fff;
+  padding: 12px 20px;
+}
+
+.admindashboard-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ff7b00;
+}
+
+/* Nav Links */
+.admindashboard-links {
+  display: flex;
+  gap: 20px;
+}
+
+.admindashboard-links span {
+  cursor: pointer;
+  font-size: 15px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.admindashboard-links span:hover {
+  background: #3e3e55;
+}
+
+.admindashboard-links .active {
+  background: #fa7901;
+  color: #1e1e2f;
+  font-weight: bold;
+}
+
+/* Logout Button */
+.admindashboard-logout {
+  background: #e74c3c;
+  border: none;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.admindashboard-logout:hover {
+  background: #c0392b;
+}
+
+/* Content */
+.admindashboard-content {
+  flex: 1;
+  padding: 30px;
+  background: #f5f6fa;
+  overflow-y: auto;
+}
