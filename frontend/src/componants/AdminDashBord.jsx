@@ -3,71 +3,95 @@ import "../css/admindashboard.css";
 
 import AddProduct from "../componants/addProduct";
 import ViewAllProducts from "../componants/ViewAllProduct";
-// import ViewOrders from "./ViewOrders";
+import ViewOrders from "../componants/viewOrder";
 // import ViewUsers from "./ViewUsers";
 
 export default function AdminDashboard() {
   const [activePage, setActivePage] = useState("dashboard");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const renderPage = () => {
     switch (activePage) {
       case "addProduct":
-        return  <AddProduct />; // Replace with <AddProduct />
+        return <AddProduct />;
       case "viewProducts":
-        return <ViewAllProducts/>; // Replace with <ViewProducts />
+        return <ViewAllProducts />;
       case "viewOrders":
-        return <h2>View Orders Page</h2>; // Replace with <ViewOrders />
+        return <ViewOrders />;
       case "viewUsers":
-        return <h2>View Users Page</h2>; // Replace with <ViewUsers />
+        return <h2>View Users Page</h2>;
       default:
-        return <h2>Welcome to Admin Dashboard 👋</h2>;
+        return (
+          <div className="welcome-box">
+            <h2>
+              Welcome to <span className="brand">QuickNow</span> Admin Dashboard 👋
+            </h2>
+            <p>Manage your store, products, and orders efficiently from one place.</p>
+          </div>
+        );
     }
   };
 
   const handleLogout = () => {
     alert("Logged out ✅");
-    window.location.href = "/home"; // redirect to login page
+    window.location.href = "/";
   };
 
   return (
     <div className="admindashboard-container">
-      {/* Top Navbar */}
       <nav className="admindashboard-navbar">
-        <div className="admindashboard-logo">Admin</div>
+        <div className="admindashboard-logo">
+          Quick<span className="headingspan">Now</span>
+        </div>
 
-        <div className="admindashboard-links">
+        <div className={`admindashboard-links ${menuOpen ? "open" : ""}`}>
           <span
             className={activePage === "addProduct" ? "active" : ""}
-            onClick={() => setActivePage("addProduct")}
+            onClick={() => {
+              setActivePage("addProduct");
+              setMenuOpen(false);
+            }}
           >
             ➕ Add Product
           </span>
           <span
             className={activePage === "viewProducts" ? "active" : ""}
-            onClick={() => setActivePage("viewProducts")}
+            onClick={() => {
+              setActivePage("viewProducts");
+              setMenuOpen(false);
+            }}
           >
             📦 View Products
           </span>
           <span
             className={activePage === "viewOrders" ? "active" : ""}
-            onClick={() => setActivePage("viewOrders")}
+            onClick={() => {
+              setActivePage("viewOrders");
+              setMenuOpen(false);
+            }}
           >
             🛒 View Orders
           </span>
           <span
             className={activePage === "viewUsers" ? "active" : ""}
-            onClick={() => setActivePage("viewUsers")}
+            onClick={() => {
+              setActivePage("viewUsers");
+              setMenuOpen(false);
+            }}
           >
             👤 View Users
           </span>
+
+          <button className="admindashboard-logout" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
 
-        <button className="admindashboard-logout" onClick={handleLogout}>
-          Logout
-        </button>
+        <div className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+          ☰
+        </div>
       </nav>
 
-      {/* Main Content */}
       <main className="admindashboard-content">{renderPage()}</main>
     </div>
   );

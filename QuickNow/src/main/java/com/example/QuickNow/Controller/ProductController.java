@@ -1,8 +1,13 @@
 package com.example.QuickNow.Controller;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +19,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.QuickNow.Model.Product;
 import com.example.QuickNow.Service.ProductService;
@@ -27,12 +35,34 @@ public class ProductController {
 	@Autowired
 	ProductService service;
 	
+	private static final String image_path = "D:/Project/QuickNow_E-commerce/QuickNow/images/";
+	
 	
 	@PostMapping("/addProduct")
-	public String addProduct(@RequestBody Product product)
+	public String addProduct(@RequestPart Product product,@RequestPart("imageFile") MultipartFile imageFile)
 	{
-		service.addProduct(product);
-		return "Product save";
+		try {
+			File directory=new File(image_path);
+			if(!directory.exists())
+			{
+				directory.mkdir();
+			}
+			String fileName=System.currentTimeMillis()+ "_"+imageFile.getOriginalFilename();
+			Path filePath=Paths.get(image_path+fileName);
+			
+			Files.write(filePath,imageFile.getBytes());
+			
+			String imageUrl = "/images/" + fileName;
+			product.setImageUrl(imageUrl);
+			
+			service.addProduct(product);
+			return "Product save";
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+			return "image not save";
+		}
 	}
 	
 	@GetMapping("/allProduct")

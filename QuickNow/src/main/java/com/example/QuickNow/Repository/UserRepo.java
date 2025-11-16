@@ -6,5 +6,5 @@ import com.example.QuickNow.Model.User;
 
 public interface UserRepo extends JpaRepository<User, Integer>{
 	
-	User findByName(String name);
+	User findByEmail(String email);
 }

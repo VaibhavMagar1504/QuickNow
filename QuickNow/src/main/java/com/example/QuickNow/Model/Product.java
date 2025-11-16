@@ -1,6 +1,5 @@
 package com.example.QuickNow.Model;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 
 import jakarta.persistence.Column;
@@ -21,11 +20,20 @@ public class Product {
 	@Column(name="description")
 	private String desc;
 	private String brand;
-	private BigDecimal price;
+	private double price;
 	private String category;
 	private Date releaseDate;
 	private boolean available;
 	private int quantity;
+	private String imageUrl;
+	
+	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 	public int getId() {
 		return id;
 	}
@@ -50,10 +58,10 @@ public class Product {
 	public void setBrand(String brand) {
 		this.brand = brand;
 	}
-	public BigDecimal getPrice() {
+	public double getPrice() {
 		return price;
 	}
-	public void setPrice(BigDecimal price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 	public String getCategory() {
@@ -86,8 +94,8 @@ public class Product {
 		
 	}
 	
-	public Product(int id, String name, String desc, String brand, BigDecimal price, String category, Date releaseDate,
-			boolean available, int quantity) {
+	public Product(int id, String name, String desc, String brand, double price, String category, Date releaseDate,
+			boolean available, int quantity, String imageUrl) {
 		this.id = id;
 		this.name = name;
 		this.desc = desc;
@@ -97,5 +105,6 @@ public class Product {
 		this.releaseDate = releaseDate;
 		this.available = available;
 		this.quantity = quantity;
+		this.imageUrl=imageUrl;
 	}
 }

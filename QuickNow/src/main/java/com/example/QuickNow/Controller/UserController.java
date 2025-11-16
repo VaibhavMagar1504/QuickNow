@@ -21,14 +21,21 @@ public class UserController {
 	UserService service;
 	
 	@PostMapping("/userReg")
-	public ResponseEntity<User> resiter(@RequestBody User user)
+	public ResponseEntity<?> resiter(@RequestBody User user)
 	{
 		return new ResponseEntity<User>(service.userResister(user),HttpStatus.OK);
 	}
 	
 	@PostMapping("/userLogin")
-	public ResponseEntity<User> login(@RequestBody User user)
+	public ResponseEntity<?> login(@RequestBody User user)
 	{
-		return new ResponseEntity<User>(service.loginuser(user),HttpStatus.OK);
+		User loginuser=service.loginuser(user);
+		if(loginuser!=null) {
+			return new ResponseEntity<User>(loginuser,HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity<>("Invalid email or password",HttpStatus.UNAUTHORIZED);
+		}
 	}
 }

@@ -1,17 +1,19 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";   // ✅ import navigate
+import { useNavigate } from "react-router-dom";
 import { loginUser, registerUser } from "../services/UserService";
-import "../css/userAuth.css"; // css file
+import "../css/userAuth.css";
 
 function LoginRegister() {
-  const [isLogin, setIsLogin] = useState(true); 
+  const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
+    mobile: "",
+    address: "",
   });
 
-  const navigate = useNavigate();  // ✅ define navigate
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,15 +23,17 @@ function LoginRegister() {
     e.preventDefault();
     try {
       const res = await loginUser({
-        name: formData.name,
+        email: formData.email,
         password: formData.password,
       });
 
-      // store user in localStorage (optional)
-      localStorage.setItem("user", JSON.stringify(res.data));
+      const user = res.data;
+
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("userId", user.id);
 
       alert("✅ Login successful");
-      navigate("/user/userdashboard");   // ✅ redirect to dashboard
+      navigate("/user/userdashboard");
     } catch (err) {
       alert("❌ Login failed: " + (err.response?.data?.message || "Try again"));
     }
@@ -40,14 +44,17 @@ function LoginRegister() {
     try {
       const res = await registerUser(formData);
 
-      alert("✅ " + res.data.name + " registered successfully");
+      const user = res.data;
 
-      // store user in localStorage (optional)
-      localStorage.setItem("user", JSON.stringify(res.data));
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("userId", user.id);
 
-      navigate("/user/userdashboard");   // ✅ redirect to dashboard
+      alert("✅ Registered successfully");
+      navigate("/user/userdashboard");
     } catch (err) {
-      alert("❌ Registration failed: " + (err.response?.data?.message || "Try again"));
+      alert(
+        "❌ Registration failed: " + (err.response?.data?.message || "Try again")
+      );
     }
   };
 
@@ -59,9 +66,9 @@ function LoginRegister() {
             <h2 className="auth-title">Login</h2>
             <input
               type="text"
-              name="name"
-              placeholder="Enter name"
-              value={formData.name}
+              name="email"
+              placeholder="Enter email"
+              value={formData.email}
               onChange={handleChange}
               required
             />
@@ -105,6 +112,22 @@ function LoginRegister() {
               name="password"
               placeholder="Enter Password"
               value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="text"
+              name="mobile"
+              placeholder="Enter Mobile Number"
+              value={formData.mobile}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="text"
+              name="address"
+              placeholder="Enter Address"
+              value={formData.address}
               onChange={handleChange}
               required
             />

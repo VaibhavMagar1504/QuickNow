@@ -13,13 +13,13 @@ public class User {
 	private int id;
 	private String name;
 	private String email;
-	public String getEmail() {
-		return email;
-	}
+	private String password;
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	private String password;
+	public String getEmail() {
+		return email;
+	}
 	public int getId() {
 		return id;
 	}
